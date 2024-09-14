@@ -4,7 +4,7 @@ import { MenuOutlined } from '@ant-design/icons'
 
 import * as React from 'react';
 import { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 const { Header } = Layout
 
@@ -15,6 +15,7 @@ interface Props {
 const Navbar = ({screens}: Props) => {
 
     const theme = React.useContext(ConfigProvider.ConfigContext);
+    const location = useLocation();
 
     const [open, setOpen] = React.useState(false);
 
@@ -31,7 +32,9 @@ const Navbar = ({screens}: Props) => {
           justifyContent: 'space-between',
           alignItems: 'center',
           padding: '0 20px',
-          backgroundColor: theme.theme?.token?.colorPrimary,
+        //   backgroundColor: location.pathname==='/'? 'transparent' : theme.theme?.token?.colorPrimary, // to make the navbar transparent when location is "/"
+          backgroundColor: theme.theme?.token?.colorPrimary, // temporary - remove this
+          boxShadow: 'none',
         },
         logo: {
           color: '#fff',
@@ -43,7 +46,8 @@ const Navbar = ({screens}: Props) => {
             flex: 1,
             justifyContent: 'flex-begin',
             color: 'white',
-            backgroundColor: theme.theme?.token?.colorPrimary,
+            backgroundColor: location.pathname==='/'? 'transparent' : theme.theme?.token?.colorPrimary, // to make the navbar transparent when location is "/"
+            border: 'none',
         },
         hamburger: {
           display: 'block',
@@ -130,7 +134,7 @@ const Navbar = ({screens}: Props) => {
 
     return(
         <React.Fragment>
-            <Layout>
+            <Layout style={{backgroundColor: 'transparent'}}>
                 <Header style={styles.header}>
                     {screens.xs ? <MobileMenu/> : <BigScreenMenu/>}
                 </Header>
